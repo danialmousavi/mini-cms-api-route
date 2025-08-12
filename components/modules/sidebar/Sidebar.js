@@ -13,7 +13,7 @@ const Sidebar = () => {
         <aside className={styles.sidebar}>
             <div className={styles.sidebar_logo}>
                 <img src="/images/logo/logo.webp" alt="" />
-                <h3>سبزلرن</h3>
+                <h3>آکادمی من</h3>
             </div>
             <ul className={styles.sidebar_links}>
                 <li>
