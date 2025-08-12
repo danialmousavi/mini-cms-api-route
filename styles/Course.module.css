@@ -63,10 +63,14 @@
     gap: 3px;
 }
 
-
+.courses_btn_price{
+    background-color: #41b300;
+    color: white;
+}
 .new_course_btn ,
 .courses_btn_delete,
-.courses_btn_edit {
+.courses_btn_edit,
+.courses_btn_price {
     text-decoration: none;
     padding: 1.2rem 2rem;
     outline: none;
@@ -78,7 +82,9 @@
 
 .new_course_btn:hover::before ,
 .courses_btn_delete:hover::before ,
-.courses_btn_edit:hover::before  {
+.courses_btn_edit:hover::before,
+.courses_btn_price:hover::before
+  {
     z-index: 1;
     transition: all 0.4s;
     transform: scale(1.3);
@@ -87,7 +93,9 @@
 
 .new_course_btn::before  ,
 .courses_btn_delete::before ,
-.courses_btn_edit::before  {
+.courses_btn_edit::before,
+.courses_btn_price::before
+{
     content: '';
     position: absolute;
     width: 100%;

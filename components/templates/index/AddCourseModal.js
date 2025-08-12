@@ -4,8 +4,46 @@ config.autoAddCss = false;
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCashRegister, faFile, faTag, faUser } from "@fortawesome/free-solid-svg-icons";
 import styles from "@/styles/Modal.module.css";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 const AddCourseModal = ({ hideAddCourseModal }) => {
+    const [title,setTitle]=useState("");
+    const [teacher,setTeacher]=useState("");
+    const [price,setPrice]=useState("");
+    const handleCreateCourse=async(e)=>{
+        e.preventDefault();
+        const newCourse={
+            title,
+            teacher,
+            price
+        }
+        const res=await fetch("/api/courses",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(newCourse)
+        })
+        if(res.status==201){
+            setTitle("");
+            setTeacher("");
+            setPrice("");
+            Swal.fire({
+                title:"دوره با موفقیت ایجاد شد",
+                icon:"success"
+            }).then(()=>{
+                hideAddCourseModal();                
+            })
+        }else{
+            Swal.fire({
+                title:"مشکلی پیش آمده است",
+                icon:"error"
+            }).then(()=>{
+                hideAddCourseModal();                
+            })            
+        }      
+    }
     return (
         <div className={styles.modal_container} id="add-new-course-modal">
             <div className={styles.modal_bg} onClick={hideAddCourseModal}></div>
@@ -18,7 +56,9 @@ const AddCourseModal = ({ hideAddCourseModal }) => {
                         <input
                             type="text"
                             placeholder="نام دوره"
-                            spellcheck="false"
+                            spellCheck="false"
+                            value={title}
+                            onChange={(e)=>setTitle(e.target.value)}
                         />
                     </div>
                     <div className={styles.input_field}>
@@ -26,7 +66,9 @@ const AddCourseModal = ({ hideAddCourseModal }) => {
                         <input
                             type="text"
                             placeholder="قیمت دوره"
-                            spellcheck="false"
+                            spellCheck="false"
+                            value={price}
+                            onChange={(e)=>setPrice(e.target.value)}                            
                         />
                     </div>
                     <div className={styles.input_field}>
@@ -34,16 +76,14 @@ const AddCourseModal = ({ hideAddCourseModal }) => {
                         <input
                             type="text"
                             placeholder="مدرس دوره"
-                            spellcheck="false"
+                            spellCheck="false"
+                            value={teacher}
+                            onChange={(e)=>setTeacher(e.target.value)}                            
                         />
                     </div>
-                    <div className={styles.input_field}>
-                        <span><FontAwesomeIcon icon={faFile} /></span>
-                        <input type="file" name="" id="" />
-                    </div>
 
-                    <button type="submit" className={styles.update_btn}>
-                        اپدیت دوره
+                    <button type="submit" className={styles.update_btn} onClick={handleCreateCourse}>
+                        ایجاد دوره
                     </button>
                 </form>
             </div>

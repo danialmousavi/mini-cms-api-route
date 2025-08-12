@@ -2,25 +2,53 @@ import DeleteModal from "@/components/templates/index/DeleteModal";
 import EditModal from "@/components/templates/index/EditModal";
 import { useState } from "react";
 import styles from "@/styles/Course.module.css";
-const CoursesItem = ({ title, image }) => {
+import Swal from "sweetalert2";
+const CoursesItem = ({ title, price,_id }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const hideEditModal = () => setShowEditModal(false);
   const hideDeleteModal = () => setShowDeleteModal(false);
-
+  //delete course 
+  const handleDeleteCourse=async(e)=>{
+    e.preventDefault();
+    const res =await fetch(`/api/courses/${_id}`,{
+      method:"DELETE",
+      headers:{
+        "Content-Type":"application/json"
+      }
+    })
+    if(res.status==200){
+      Swal.fire({
+        title:"دوره با موفقیت حذف شد",
+        icon:"success"
+      })
+    }else{
+      Swal.fire({
+        title:"متاسفیم مشکلی پیش آمده است",
+        icon:"error"
+      })      
+    }
+    setShowDeleteModal(false);
+  }
   return (
     <>
       <li className={styles.courses_item}>
         <div className={styles.courses_img_title}>
           <img
-            src={image}
+            src={'/images/courses/js.png'}
             alt="course-item-img"
             className={styles.courses_img}
           />
           <h5 className={styles.courses_name}>{title}</h5>
         </div>
         <div className={styles.courses_btns}>
+                    <a
+            href="#"
+            className={styles.courses_btn_price}
+          >
+            {price}$
+          </a>
           <a
             href="#"
             className={styles.courses_btn_edit}
@@ -40,7 +68,7 @@ const CoursesItem = ({ title, image }) => {
         </div>
       </li>
       {showEditModal && <EditModal hideEditModal={hideEditModal} />}
-      {showDeleteModal && <DeleteModal hideDeleteModal={hideDeleteModal} />}
+      {showDeleteModal && <DeleteModal handleDeleteCourse={handleDeleteCourse} hideDeleteModal={hideDeleteModal} />}
     </>
   );
 };

@@ -1,21 +1,21 @@
-import Course from "@/components/templates/index/Course";
+import Courses from "@/components/templates/index/Course";
 import courseModel from "@/models/course";
 import connectDB from "@/utils/db";
 
-const index = () => {
-  return <Course />;
+const index = ({courses}) => {
+  return <Courses  courses={courses}/>;
 };
 
 export default index;
 
 export async function getStaticProps() {
   connectDB();
-  const data =courseModel.find({});
-  console.log(data);
+  const data =await courseModel.find({});
   
   return{
     props:{
-      
-    }
+      courses:JSON.parse(JSON.stringify(data))
+    },
+    revalidate:60
   }
 }
