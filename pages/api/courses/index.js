@@ -4,9 +4,18 @@ import connectDB from "@/utils/db";
 const handler = async (req, res) => {
   connectDB();
   if(req.method=="GET"){
-    const courses=await courseModel.find()
-    if(courses){
-      return res.status(200).json(courses)
+    const {q}=req.query;
+    if(q){
+      console.log("q",q);
+      const courses=await courseModel.find({title:{$regex:q}});
+          if(courses){
+            return res.status(200).json(courses)
+          }
+    }else{
+          const courses=await courseModel.find()
+          if(courses){
+            return res.status(200).json(courses)
+          }
     }
   }
   else if (req.method == "POST") {

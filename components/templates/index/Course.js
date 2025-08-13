@@ -11,10 +11,8 @@ const Courses = ({courses}) => {
   //get courses
   const handleGetCourses=async()=>{
     const res=await fetch("/api/courses");
-    console.log("handleGetCourses",res);
-    
+    const courseData=await res.json();
     if(res.status==200){
-      const courseData=await res.json();
       setData(courseData);
     }
   }
@@ -41,7 +39,7 @@ const Courses = ({courses}) => {
       </section>
 
       {showAddCourseModal && (
-        <AddCourseModal hideAddCourseModal={hideAddCourseModal} handleGetCourses={handleGetCourses} />
+        <AddCourseModal hideAddCourseModal={hideAddCourseModal}  handleGetCourses={handleGetCourses}/>
       )}
     </>
   );
