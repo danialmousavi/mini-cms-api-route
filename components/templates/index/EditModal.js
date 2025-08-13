@@ -4,8 +4,44 @@ config.autoAddCss = false;
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCashRegister, faTag, faUser } from "@fortawesome/free-solid-svg-icons";
 import styles from "@/styles/Modal.module.css";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
-const EditModal = ({ hideEditModal }) => {
+const EditModal = ({ hideEditModal ,title,price,teacher,id,handleGetCourses}) => {
+
+    const [updateTitle,setUpdateTitle]=useState(title||"");
+    const [updatePrice,setUpdatePrice]=useState(price||"");
+    const [updateTeacher,setUpdateTeacher]=useState(teacher||"");
+    const handleUpdateCourse=async(e)=>{
+        e.preventDefault();
+        const updatecourse={
+            title:updateTitle,
+            teacher:updateTeacher,
+            price:updatePrice,
+        }
+        console.log(updatecourse);
+        const res=await fetch(`/api/courses/${id}`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(updatecourse)
+        })
+        console.log(res);
+        if(res.status==200){
+            Swal.fire({
+                title:"دوره با موفقیت ویرایش شد",
+                icon:"success"
+            })
+            handleGetCourses()
+        }else{
+            Swal.fire({
+                title:"متاسفیم مشکلی پیش آمده است",
+                icon:"error"
+            })
+        }
+        hideEditModal();
+    }
     return (
         <div className={styles.modal_container} id="edit-modal">
             <div className={styles.modal_bg} onClick={hideEditModal}></div>
@@ -18,7 +54,9 @@ const EditModal = ({ hideEditModal }) => {
                         <input
                             type="text" 
                             placeholder="نام دوره"
-                            spellcheck="false"
+                            spellCheck="false"
+                            value={updateTitle}
+                            onChange={(e)=>setUpdateTitle(e.target.value)}
                         />
                     </div>
                     <div className={styles.input_field}>
@@ -26,7 +64,10 @@ const EditModal = ({ hideEditModal }) => {
                         <input
                             type="text" 
                             placeholder="قیمت دوره"
-                            spellcheck="false"
+                            spellCheck="false"
+                            value={updatePrice}
+                            onChange={(e)=>setUpdatePrice(e.target.value)}
+
                         />
                     </div>
                     <div className={styles.input_field}>
@@ -34,11 +75,14 @@ const EditModal = ({ hideEditModal }) => {
                         <input
                             type="text" 
                             placeholder="مدرس دوره"
-                            spellcheck="false"
+                            spellCheck="false"
+                            value={updateTeacher}
+                            onChange={(e)=>setUpdateTeacher(e.target.value)}
+
                         />
                     </div>
 
-                    <button type="submit" className={styles.update_btn }>
+                    <button type="submit" className={styles.update_btn } onClick={handleUpdateCourse}>
                         اپدیت دوره
                     </button>
                 </form>

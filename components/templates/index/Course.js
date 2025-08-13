@@ -5,9 +5,19 @@ import styles from "@/styles/Course.module.css";
 
 const Courses = ({courses}) => {
   const [showAddCourseModal, setShowAddCourseModal] = useState(false);
-
+  const [data,setData]=useState([...courses])
   const hideAddCourseModal = () => setShowAddCourseModal(false);
 
+  //get courses
+  const handleGetCourses=async()=>{
+    const res=await fetch("/api/courses");
+    console.log("handleGetCourses",res);
+    
+    if(res.status==200){
+      const courseData=await res.json();
+      setData(courseData);
+    }
+  }
   return (
     <>
       <section className={styles.courses}>
@@ -22,8 +32,8 @@ const Courses = ({courses}) => {
           </a>
         </div>
         <ul className={styles.courses_list}>
-          {courses.map(item=>(
-            <CoursesItem key={item._id} {...item} />
+          {data.map(item=>(
+            <CoursesItem key={item._id} {...item} handleGetCourses={handleGetCourses} />
             
           ))}
 
@@ -31,7 +41,7 @@ const Courses = ({courses}) => {
       </section>
 
       {showAddCourseModal && (
-        <AddCourseModal hideAddCourseModal={hideAddCourseModal} />
+        <AddCourseModal hideAddCourseModal={hideAddCourseModal} handleGetCourses={handleGetCourses} />
       )}
     </>
   );

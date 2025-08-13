@@ -3,7 +3,7 @@ import EditModal from "@/components/templates/index/EditModal";
 import { useState } from "react";
 import styles from "@/styles/Course.module.css";
 import Swal from "sweetalert2";
-const CoursesItem = ({ title, price,_id }) => {
+const CoursesItem = ({ title, price,_id,teacher,handleGetCourses }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -23,6 +23,7 @@ const CoursesItem = ({ title, price,_id }) => {
         title:"دوره با موفقیت حذف شد",
         icon:"success"
       })
+      handleGetCourses();
     }else{
       Swal.fire({
         title:"متاسفیم مشکلی پیش آمده است",
@@ -31,6 +32,7 @@ const CoursesItem = ({ title, price,_id }) => {
     }
     setShowDeleteModal(false);
   }
+
   return (
     <>
       <li className={styles.courses_item}>
@@ -67,7 +69,7 @@ const CoursesItem = ({ title, price,_id }) => {
           </a>
         </div>
       </li>
-      {showEditModal && <EditModal hideEditModal={hideEditModal} />}
+      {showEditModal && <EditModal hideEditModal={hideEditModal} title={title} price={price} teacher={teacher} id={_id} handleGetCourses={handleGetCourses}/> }
       {showDeleteModal && <DeleteModal handleDeleteCourse={handleDeleteCourse} hideDeleteModal={hideDeleteModal} />}
     </>
   );

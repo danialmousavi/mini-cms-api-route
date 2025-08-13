@@ -7,7 +7,7 @@ import styles from "@/styles/Modal.module.css";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-const AddCourseModal = ({ hideAddCourseModal }) => {
+const AddCourseModal = ({ hideAddCourseModal ,handleGetCourses}) => {
     const [title,setTitle]=useState("");
     const [teacher,setTeacher]=useState("");
     const [price,setPrice]=useState("");
@@ -26,6 +26,7 @@ const AddCourseModal = ({ hideAddCourseModal }) => {
             body:JSON.stringify(newCourse)
         })
         if(res.status==201){
+            handleGetCourses()
             setTitle("");
             setTeacher("");
             setPrice("");

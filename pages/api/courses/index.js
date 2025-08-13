@@ -3,7 +3,13 @@ import connectDB from "@/utils/db";
 
 const handler = async (req, res) => {
   connectDB();
-  if (req.method == "POST") {
+  if(req.method=="GET"){
+    const courses=await courseModel.find()
+    if(courses){
+      return res.status(200).json(courses)
+    }
+  }
+  else if (req.method == "POST") {
     try {
       const {title ,price,teacher} = req.body;
       if (title.trim() == "" || title.trim().length < 3||price== ""||teacher.trim() == "" || teacher.trim().length < 3) {
