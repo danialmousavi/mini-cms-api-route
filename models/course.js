@@ -10,9 +10,11 @@ const schema = mongoose.Schema({
     requierd: true,
   },
   price: {
-    type: String,
+    type: Number,
     requierd: true,
   },
+},{
+  timestamps:true
 });
 
 const courseModel = mongoose.models.Course || mongoose.model("Course", schema);
