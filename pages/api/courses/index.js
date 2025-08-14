@@ -26,7 +26,7 @@ const handler = async (req, res) => {
       }
       const data = await courseModel.create({ title,teacher,price });
       if (data) {
-        return res.status(201).json({ message: "user created succesfully" });
+        return res.status(201).json({ message: "course created succesfully" });
       } else {
         return res.status(409).json({ message: "unknown error" });
       }

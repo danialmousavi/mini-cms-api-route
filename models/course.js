@@ -11,7 +11,9 @@ const schema = mongoose.Schema({
   },
   price: {
     type: Number,
-    requierd: true,
+    // requierd: true,
+    default:0,
+    min:0
   },
 },{
   timestamps:true

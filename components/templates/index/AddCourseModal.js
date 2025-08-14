@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const AddCourseModal = ({ hideAddCourseModal ,handleGetCourses}) => {
     const [title,setTitle]=useState("");
     const [teacher,setTeacher]=useState("");
-    const [price,setPrice]=useState("");
+    const [price,setPrice]=useState();
     const handleCreateCourse=async(e)=>{
         e.preventDefault();
         const newCourse={
