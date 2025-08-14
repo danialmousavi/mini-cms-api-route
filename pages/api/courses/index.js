@@ -7,12 +7,12 @@ const handler = async (req, res) => {
     const {q}=req.query;
     if(q){
       console.log("q",q);
-      const courses=await courseModel.find({title:{$regex:q}});
+      const courses=await courseModel.find({title:{$regex:q}}).populate('teacher');
           if(courses){
             return res.status(200).json(courses)
           }
     }else{
-          const courses=await courseModel.find()
+          const courses=await courseModel.find().populate('teacher')
           if(courses){
             return res.status(200).json(courses)
           }

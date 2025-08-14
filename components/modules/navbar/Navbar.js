@@ -28,7 +28,7 @@ const Navbar = () => {
           type="text"
           placeholder="جستجو کنید...."
           onChange={(e)=>setSearch(e.target.value)}
-          value={search}
+          defaultValue={search}
         />
         <span className={styles.navbar_search_icon} onClick={searchHandler}>
           <FontAwesomeIcon icon={faSearch} />

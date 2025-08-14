@@ -1,13 +1,14 @@
 const { default: mongoose } = require("mongoose");
-
+const  teacherModel= require("./teacher")
 const schema = mongoose.Schema({
   title: {
     type: String,
-    requierd: true,
+    required: true,
   },
   teacher: {
-    type: String,
-    requierd: true,
+      type: mongoose.Types.ObjectId, // اصلاح Schema.Types
+      ref: 'Teacher',                       // اشاره به مدل Teacher
+      required: true
   },
   price: {
     type: Number,

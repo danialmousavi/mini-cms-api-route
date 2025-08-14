@@ -4,13 +4,14 @@ config.autoAddCss = false;
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCashRegister, faFile, faTag, faUser } from "@fortawesome/free-solid-svg-icons";
 import styles from "@/styles/Modal.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 const AddCourseModal = ({ hideAddCourseModal ,handleGetCourses}) => {
     const [title,setTitle]=useState("");
     const [teacher,setTeacher]=useState("");
     const [price,setPrice]=useState();
+    const [selectTeacher,setSelectTeacher]=useState([])
     const handleCreateCourse=async(e)=>{
         e.preventDefault();
         const newCourse={
@@ -45,6 +46,12 @@ const AddCourseModal = ({ hideAddCourseModal ,handleGetCourses}) => {
             })            
         }      
     }
+    useEffect(()=>{
+        fetch("/api/teachers").then(res=>res.json()).then(data=>{
+            setSelectTeacher(data)
+        }
+        )
+    },[])
     return (
         <div className={styles.modal_container} id="add-new-course-modal">
             <div className={styles.modal_bg} onClick={hideAddCourseModal}></div>
@@ -74,13 +81,12 @@ const AddCourseModal = ({ hideAddCourseModal ,handleGetCourses}) => {
                     </div>
                     <div className={styles.input_field}>
                         <span><FontAwesomeIcon icon={faUser} /></span>
-                        <input
-                            type="text"
-                            placeholder="مدرس دوره"
-                            spellCheck="false"
-                            value={teacher}
-                            onChange={(e)=>setTeacher(e.target.value)}                            
-                        />
+                        <select style={{width:"100%",height:"100%",border:"none",outline:"none"}} name="" id="" defaultValue={teacher}onChange={(e)=>setTeacher(e.target.value)}>
+                            <option value=""></option>
+                            {selectTeacher.map(t=>(
+                            <option key={t._id} value={t._id}>{t.name}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <button type="submit" className={styles.update_btn} onClick={handleCreateCourse}>
