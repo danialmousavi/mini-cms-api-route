@@ -7,7 +7,6 @@ const handler = async (req, res) => {
   if(req.method=="GET"){
     const {q}=req.query;
     if(q){
-      console.log("q",q);
       const courses=await courseModel.find({title:{$regex:q}})//.populate('teacher');
           if(courses){
             return res.status(200).json(courses)
@@ -26,7 +25,6 @@ const handler = async (req, res) => {
         return res.status(402).json({ message: "invalid value" });
       }
       const teachersData=await teacherModel.findOne({_id:teacher});
-      console.log(teachersData);
       
       const data = await courseModel.create({ title , teacher:teachersData , price });
       if (data) {
