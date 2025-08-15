@@ -12,7 +12,7 @@ const handler = async (req, res) => {
             return res.status(200).json(courses)
           }
     }else{
-          const courses=await courseModel.find() //.populate("teacher")
+          const courses=await courseModel.find().populate("comments") //.populate("teacher")
           if(courses){
             return res.status(200).json(courses)
           }

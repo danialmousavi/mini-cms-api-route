@@ -27,6 +27,12 @@ const handler =async (req, res) => {
         }else{
             return res.status(404).json({message:"course id is not valid"})
         }
+    }else if(req.method=="GET"){
+        const {id}=req.query;
+        const course=await courseModel.findOne({_id:id}).populate("comments");
+        if(course){
+             return res.status(200).json(course);   
+        }
     }
 };
 export default handler;
