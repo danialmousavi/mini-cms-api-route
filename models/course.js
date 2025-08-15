@@ -1,13 +1,13 @@
 const { default: mongoose } = require("mongoose");
 const  teacherModel= require("./teacher")
+import { schema as teacherSchema } from "./teacher";
 const schema = mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
   teacher: {
-      type: mongoose.Types.ObjectId, // اصلاح Schema.Types
-      ref: 'Teacher',                       // اشاره به مدل Teacher
+      type:teacherSchema,
       required: true
   },
   price: {
